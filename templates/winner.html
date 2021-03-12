@@ -1,0 +1,164 @@
+<html>
+<head>
+    <title>Basic Animations Part 2 - scaling</title>
+    <link rel="stylesheet" href="{{url_for('static', filename='css/style.css')}}">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous">
+        </script>
+    <script type="text/javascript">
+
+        let MAX_WIDTH = 300;
+        let ANIMATION_SPEED = 20;
+
+        var width = 100;
+        var difference = 2;
+        var interveralID = 0;
+        //document.getElementById("img1").style.width=width;
+
+        function increase(elem) {
+            clearInterval(interveralID);
+            interveralID = setInterval(function () { expand(elem); }, ANIMATION_SPEED);
+        }
+        /*function decrease(elem) {
+            clearInterval(interveralID);
+            interveralID = setInterval(function () { shrink(elem); }, ANIMATION_SPEED);
+        }*/
+        function expand(elem) {
+            if (width < MAX_WIDTH * 2) {
+                width = width + difference;
+                elem.width = width;
+            }
+            else {
+                clearInterval(interveralID);
+                //decrease(elem)
+            }
+
+        }
+
+        imgs = [];
+        function createImg(width, left, top, src){
+            var img = new Image();
+            img.src = src;
+            img.width = width;
+            img.style.left = left;
+            img.style.top = top;
+            img.style.position = "fixed";
+            img.style.zIndex = -1;
+
+            var img_object = {image: img, increase: getRandomInt(2), ttl: 0};
+            imgs.push(img_object)
+
+            document.getElementById('body').appendChild(img_object.image);
+        }
+
+        setInterval(function () {
+            for (var i = 0; i < imgs.length; ++i) {
+                obj = imgs[i];
+                elem = obj.image;
+                w = elem.width; // updates player position
+                if(obj.ttl >= 2){
+                    elem.remove();
+                    imgs.splice(i, 1);
+                    createRandomImg();
+                    continue;
+                }
+                if(obj.increase) {
+                    if (w < MAX_WIDTH) {
+                        elem.width = w + difference;
+                    } else {
+                        obj.increase = 0
+                    }
+                } else {
+                    if (w > 100) {
+                        elem.width = w - difference;
+                    } else {
+                        obj.increase = 1;
+                        obj.ttl++;
+                    }
+                }
+                
+            }
+        }, ANIMATION_SPEED);
+
+        var loop = true;
+        var s_winner = ""
+
+        $(document).ready(function() {
+            $("#winner").hide();
+
+            createRandomImg();
+            createRandomImg();
+            createRandomImg();
+            createRandomImg();
+            createRandomImg();
+            createRandomImg();
+
+            console.log(imgs)
+
+            let data_randomize = {{data|tojson|safe}};
+            data_randomize[data_randomize.length-1]
+            let max_val = data_randomize[data_randomize.length-1].cummul
+            console.log("max val : " + max_val)
+            let random = getRandomInt(max_val)
+            console.log("random : " + random)
+            data_randomize.every((currentValue, index) => {
+                console.log("turn : " + index)
+                if(currentValue.cummul >= random){
+                    console.log("WINNER")
+
+                    i_winner = index;
+                    /*if(index != 0)
+                        var i_winner = index-1;*/
+                    s_winner = data_randomize[i_winner].username;
+                    console.log(s_winner)
+                    $('#username_winner').text(s_winner)
+                    //alert(random + " / " + s_winner + " / " + index);
+                    return false;
+                }
+                return true;
+            });
+
+            var index = 0;
+            var display_usernames = setInterval(function () {
+                if(loop){
+                    $('#username_loop').text(data_randomize[index%data_randomize.length].username);
+                    index++;
+                }
+            }, 1000/10);
+        });
+
+        function getRandomInt(max, min=1) {
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+
+        function createRandomImg() {
+            max_top = $(document).height()-MAX_WIDTH/2;
+            max_left = $(document).width()-MAX_WIDTH/2;
+            createImg(getRandomInt(300), getRandomInt(max_left), getRandomInt(max_top), "/static/images/" + (getRandomInt(4)) + ".png");
+        }
+
+        var fadeOut = setInterval(function () {
+            loop = true;
+            $("#countdown").fadeOut(1000, function () {
+
+                $("#winner").fadeIn(2000);
+            });
+        }, 4000);
+
+
+    </script>
+</head>
+
+<body id="body">
+    <div id="bg">
+        <div id="countdown">
+            <h1>The winner is ...</h1>
+            <h3 id="username_loop"></h3>
+        </div>
+        <div id="winner">
+            <h1 id="username_winner"></h1>
+        </div>
+    </div>
+</body>
+
+</html>
