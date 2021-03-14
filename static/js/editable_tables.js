@@ -34,7 +34,7 @@ jQuery.fn.shift = [].shift;
 
 
 $BTN.on('click', () => { // randomize button
-    alert("CLICKED")
+    //alert("CLICKED")
     const $rows = $tableID_manually.find('tr:not(:hidden)');
     const headers = [];
     const data = [];

@@ -17,7 +17,7 @@ DEFAULT_VALUE_STORY = 5
 @app.route('/winner')
 def winner():
     #return render_template('winner.html', data = data_randomize if data_randomize != None else None)
-    return render_template('winner.html', data = [{"username": "vaseline", "comments": 3, "cummul": 3}, {"username": "bouchkim", "comments": 5, "cummul": 8}, {"username": "albert", "comments": 1, "cummul": 9}])
+    return render_template('winner.html', data=data_randomize)
 
 @app.route('/post_insta_credentials', methods=["POST"])
 def getCredentials():
