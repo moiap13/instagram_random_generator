@@ -134,7 +134,7 @@
         function createRandomImg() {
             max_top = $(document).height()-MAX_WIDTH/2;
             max_left = $(document).width()-MAX_WIDTH/2;
-            createImg(getRandomInt(300), getRandomInt(max_left), getRandomInt(max_top), "/static/images/" + (getRandomInt(4)) + ".png");
+            createImg(getRandomInt(300), getRandomInt(max_left), getRandomInt(max_top), "/static/images/" + (getRandomInt(6)) + ".png");
         }
 
         var fadeOut = setInterval(function () {
@@ -151,12 +151,16 @@
 
 <body id="body">
     <div id="bg">
-        <div id="countdown">
+        <div id="countdown" class="h-100 d-flex justify-content-center align-items-center">
+            <div class="align-middle">
+
             <h1>The winner is ...</h1>
             <h3 id="username_loop"></h3>
+            </div>
         </div>
+
         <div id="winner">
-            <h1 id="username_winner"></h1>
+            <h1 id="username_winner" class="my-auto"></h1>
         </div>
     </div>
 </body>

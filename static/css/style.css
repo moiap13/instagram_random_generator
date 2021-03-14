@@ -1,9 +1,15 @@
+@font-face {
+    font-family: 'Raleway-SemiBold'; /*a name to be used later*/
+    src: url('../fonts/Raleway-SemiBold.ttf'); /*URL to font*/
+}
+
 .img_absolute {
     z-index: -1;
 }
 body {
     width: 100%;
     height: 100%;
+    font-family: Raleway-SemiBold;
 }
 
 #bg {
@@ -37,5 +43,10 @@ body {
 #winner h1 {
     color: white;
     text-align: center;
-    margin-top: 15%;
+    min-height: 100%;
+    margin: auto;
+    justify-content: center;
+    display: flex;
+    align-items: center;
+    font-size: 450%;
 }
